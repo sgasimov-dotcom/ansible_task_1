@@ -14,7 +14,7 @@
     - katty
 
      # MariaDB install on Amazon machines
-
+     
   - name: Install webserver Amazon
     when: ansible_facts['distribution'] == "Amazon"  
     ansible.builtin.package:
@@ -52,7 +52,7 @@
     #  state: latest
     #notify: Restart webserver Ubuntu
   
-
+   # Create SSH Keys for users bob, ben, lisa and katty
   - name: Generate SSH key for user bob
     ansible.builtin.user:
      name: bob
