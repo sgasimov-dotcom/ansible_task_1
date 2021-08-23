@@ -20,6 +20,6 @@
 2. Generating SSH key on Ubuntu machines - after resolving issue with MariaDB it was resolved by itself.
 3. /etc/skel  - took long to figure out how to add url to users directories.. good to know.. http://www.linfo.org/etc_skel.html 
 4. Started working with Ansible I started loving Hashicorp HCL more and more.. YAML script is such a heart pain.. is there any auto-complete or auto-correct?! :(
-5. Tried multiple way of adding multiple users ( as well as variables) none of worked, onlt single ones..
+5. Tried multiple way of adding multiple users ( as well as variables) none of worked, but only adding 1-by-1 ..
 
 
