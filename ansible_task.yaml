@@ -1,0 +1,92 @@
+--- # ansible-playbook ansibletask.yaml
+- name: Ansible Playbook
+  hosts: all
+  become: true
+  become_method: sudo 
+  tasks:
+  - name: Add the users
+    ansible.builtin.user:
+      name: "{{ item }}"
+    with_items:
+    - bob
+    - ben
+    - lisa
+    - katty
+
+     # MariaDB install on Amazon machines
+
+  - name: Install webserver Amazon
+    when: ansible_facts['distribution'] == "Amazon"  
+    ansible.builtin.package:
+      name:
+        - httpd
+        - mariadb-server 
+      state: latest
+
+
+   # Install python-pycurl, only required for Ubuntu machines in order MariaDB to run
+
+  - name: common dependencies
+    apt: pkg=python-pycurl state=present
+
+  # Install MariaDB to Ubuntu 
+
+  - name: Install MariaDB repository
+    when:  ansible_facts['distribution'] == "Ubuntu" 
+    apt_repository: repo='deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main' state=present
+
+  - name: Add repository key to the system
+    when: ansible_facts['distribution'] == "Ubuntu"
+    apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+
+  - name: Install MariaDB Server
+    apt: name=mariadb-server state=latest update_cache=yes
+    notify: Restart webserver Ubuntu
+
+     #  This didn't work for me 
+  - #name: Install webserver Ubuntu
+    #when: 
+    #- ansible_facts['distribution'] == "Ubuntu" 
+    #ansible.builtin.package:
+    #  name: mariadb
+    #  state: latest
+    #notify: Restart webserver Ubuntu
+  
+
+  - name: Generate SSH key for user bob
+    ansible.builtin.user:
+     name: bob
+     generate_ssh_key: yes
+
+  - name: Generate SSH key for user ben
+    ansible.builtin.user:
+     name: ben
+     generate_ssh_key: yes
+
+  - name: Generate SSH key for user lisa
+    ansible.builtin.user:
+     name: lisa
+     generate_ssh_key: yes
+
+  - name: Generate SSH key for user katty 
+    ansible.builtin.user:
+     name: katty
+     generate_ssh_key: yes
+
+  - name: Download Url
+    ignore_errors: true
+    ansible.builtin.get_url:
+      url: https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv
+      dest: /tmp/address
+      mode: '0440'
+  
+
+  handlers:
+  - name: Restart webserver Ubuntu
+    when: 
+    - ansible_facts['distribution'] == "Ubuntu"
+    systemd:
+      name: mariadb-server
+      state: restarted  
+
+...
