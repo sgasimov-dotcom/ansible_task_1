@@ -1,8 +1,8 @@
 
 
-![image](https://user-images.githubusercontent.com/84157053/130389799-65c28d60-d7d6-4361-b1a1-8fca1c500555.png)
+####################### ![image](https://user-images.githubusercontent.com/84157053/130389799-65c28d60-d7d6-4361-b1a1-8fca1c500555.png)  ############################
 
-#TASK 1
+# TASK 1
 
 + Use dynamic inventory for below task, and build the environment with curl command: 
 + Create a playbook to install mariadb server on ubuntu, and adds users to amazon instances:
